@@ -13,6 +13,7 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -23,7 +24,7 @@ using System.Xml.Serialization;
 using Microsoft.CSharp;
 
 namespace NSLaserCfg {
-        public partial class LaserCfgForm {
+    public partial class LaserCfgForm {
         #region ctor
         public LaserCfgForm() {
             InitializeComponent();
@@ -31,6 +32,7 @@ namespace NSLaserCfg {
         #endregion
 
         #region event-handling methods
+
         void exitClick(object sender, EventArgs ea) {
             CancelEventArgs cea = new CancelEventArgs();
 
@@ -40,7 +42,22 @@ namespace NSLaserCfg {
             }
             Application.Exit();
         }
+
         void formLoad(object sender, EventArgs ea) {
+            int nscreens, lastScreen;
+            Screen[] avcar;
+            Screen avar2;
+
+            avcar = Screen.AllScreens;
+            if (avcar != null && (nscreens = avcar.Length) > 0) {
+                lastScreen = nscreens - 1;
+                if (lastScreen > 0) {
+                    avar2 = avcar[lastScreen];
+                    this.DesktopLocation = new Point(
+                        this.Location.X + avar2.WorkingArea.X,
+                        this.Location.Y + avar2.WorkingArea.Y);
+                }
+            }
         }
 
         #endregion
@@ -53,12 +70,6 @@ namespace NSLaserCfg {
             Application.Run(new LaserCfgForm());
         }
 
-        #endregion
-
-        #region fields
-        CodeCompileUnit ccu;
-        CodeNamespace ns;
-        bool issueFound = false;
         #endregion
 
         #region constants
@@ -82,233 +93,166 @@ namespace NSLaserCfg {
             if (ofd.ShowDialog() == DialogResult.OK) {
                 inferSchema(ofd.FileName);
                 //doDeserialization(ofd.FileName);
-//foreach(var avar in )
+                //foreach(var avar in )
             }
         }
 
-          void inferSchema(string fileName) {
+        void inferSchema(string fileName) {
+            XmlSchemaInference xsi;
+            XmlReaderSettings xrs;
             try {
-                //XmlSchemaImporter xsi KC= new XmlSchemaImporter();
-                XmlSchemaInference xsi;
-                XmlReaderSettings xrs = new XmlReaderSettings();
-                //XmlParserContext ctx=new XmlParserContext(KC)
 
                 xsi = new XmlSchemaInference();
+                xrs = new XmlReaderSettings();
                 using (XmlReader xr = XmlReader.Create(fileName, xrs)) {
-                    var v = xsi.InferSchema(xr);
-                    //Trace.WriteLine("here");
-                    //foreach (var avar in v.Schemas()) {
-                    //    Trace.WriteLine("here");
-                    //    //foreach (var avar2 in v.e) {
-
-                    //    //}
-                    //}
-                    foreach (XmlSchema xs in v.Schemas()) {
-                        //Trace.WriteLine("here");
-                        //foreach(var avar in xs.Items) {
-                        //    Trace.WriteLine("here");
-
-                        //}
-                        foreach (XmlSchemaElement xse in xs.Items) {
-                            //Trace.WriteLine("here");
-                            Trace.WriteLine(xse.Name + ":" + xse.SchemaType + ", " + xse.ElementSchemaType + ", " + xse.SchemaTypeName);
-                            if (xse.ElementSchemaType== System.Xml.Schema.XmlSchemaComplexType) {
-                                System.Xml.Schema.XmlSchemaComplexType xsct;
-
-                                xsct = xse as System.Xml.Schema.XmlSchemaComplexType;
-                                Trace.WriteLine("here");
-                            }
-                        }
-                        Trace.WriteLine("here");
-                    }
+                    handleSchemaInference(xsi.InferSchema(xr));
                 }
             } catch (Exception ex) {
-                log(MethodBase.GetCurrentMethod(), ex);
+                MyLogger.log(MethodBase.GetCurrentMethod(), ex);
             } finally { }
         }
 
-        void doDeserialization(string filename) {
-            XmlDeserializationEvents xde;
-            XmlSerializer xs;
-            XmlReaderSettings xrs;
-            StringBuilder sb;
-            object anObj;
-
-            ccu = new CodeCompileUnit();
-            ccu.Namespaces.Add(ns = new CodeNamespace());
-            ns.Imports.AddRange(
-                new CodeNamespaceImport[] {
-                    new CodeNamespaceImport ("System.Xml"),
-                    new CodeNamespaceImport ("System.Xml.Serialization"),
-                });
-            try {
-                xs = new XmlSerializer(typeof(MarkingTaskGroup[]));
-                xrs = new XmlReaderSettings();
-                xrs.ValidationEventHandler += Xrs_ValidationEventHandler;
-                xrs.ValidationFlags = System.Xml.Schema.XmlSchemaValidationFlags.AllowXmlAttributes | System.Xml.Schema.XmlSchemaValidationFlags.ReportValidationWarnings;
-                using (XmlReader xr = XmlReader.Create(filename, xrs)) {
-                    xde = new XmlDeserializationEvents();
-                    xde.OnUnknownAttribute = this.unknownAttribute;
-                    xde.OnUnknownElement = this.unknownElement;
-                    xde.OnUnknownNode = this.unknownNode;
-                    xde.OnUnreferencedObject = this.unreferencedObject;
-                    anObj = xs.Deserialize(xr, xde);
-                    log(MethodBase.GetCurrentMethod());
-                }
-            } catch (Exception ex) {
-                Trace.WriteLine(decomposeException(ex));
-            } finally {
-                if (issueFound) {
-                    showResult(sb = new StringBuilder());
-                }
-            }
-        }
-
-        void showResult(StringBuilder sb) {
-            //throw new NotImplementedException();
-            CodeDomProvider cdp = new CSharpCodeProvider();
-            CodeGeneratorOptions opts = new CodeGeneratorOptions();
-            opts.BlankLinesBetweenMembers = false;
-            opts.ElseOnClosing = true;
-
-            using (StringWriter xw = new StringWriter(sb = new StringBuilder())) {
-                cdp.GenerateCodeFromCompileUnit(ccu, xw, opts);
-            }
-            Trace.WriteLine(sb.ToString());
-        }
-
-        void Xrs_ValidationEventHandler(object sender, System.Xml.Schema.ValidationEventArgs e) {
-            log(MethodBase.GetCurrentMethod());
-        }
-
-        string decomposeException(Exception ex) {
-            StringBuilder sb = new StringBuilder();
-            Exception exo = ex;
-
-            while (exo != null) {
-                sb.AppendLine(exo.GetType().FullName + ":" + exo.Message);
-                exo = exo.InnerException;
-            }
-            return sb.ToString();
-        }
-
-        void unreferencedObject(object sender, UnreferencedObjectEventArgs e) {
-            this.log(MethodBase.GetCurrentMethod());
-        }
-
-        void unknownNode(object sender, XmlNodeEventArgs e) {
-            int  n;
-            string[] parts;
-            string className, nameSpace;
-            //CodeNamespace nsThis;
-            //CodeTypeDeclaration ctd;
-
-            if (e.ObjectBeingDeserialized != null) {
-
-                if (!issueFound)
-                    issueFound = true;
-                parts = e.ObjectBeingDeserialized.GetType().FullName.Split('.');
-                //if ((pos=))
-
-                //Trace.WriteLine("here");
-                if ((n = parts.Length) < 2) {
-                    nameSpace = string.Empty;
-                    className = parts[0];
-                } else {
-                    nameSpace = string.Join(".", parts, 0, n - 1);
-                    className = parts[n - 1];
-                }
-                addToNamespace(nameSpace, className, e.Name);
-
-            } else
-                this.log(MethodBase.GetCurrentMethod(), "Found " + e.NodeType + " '" + e.Name + "' on " + e.ObjectBeingDeserialized.GetType().FullName);
-        }
-
-        void addToNamespace(string nameSpace, string className, string fieldName) {
-            CodeNamespace nsThis = null;
-
-
-            nsThis = null;
-            foreach (CodeNamespace anns in ccu.Namespaces) {
-                if (string.Compare(anns.Name, nameSpace) == 0) {
-                    nsThis = anns;
-                    break;
-                }
-            }
-            if (nsThis == null) {
-                ccu.Namespaces.Add(nsThis = new CodeNamespace(nameSpace));
-
-            }
-            addTypeInfo(nsThis, className, fieldName);
-        }
-
-        void addTypeInfo(CodeNamespace nsThis, string className, string fieldName) {
-            CodeTypeDeclaration ctd = null;
-            foreach (CodeTypeDeclaration atype in nsThis.Types)
-                if (string.Compare(atype.Name, className, true) == 0) {
-                    ctd = atype;
-                    break;
-                }
-            if (ctd == null) {
-                nsThis.Types.Add(ctd = new CodeTypeDeclaration(className));
-                ctd.IsPartial = true;
-                //ctd.CustomAttributes.Add(new CodeAttributeDeclaration(new CodeTypeReference(typeof(XmlRootAttribute))));
-                ctd.CustomAttributes.Add(new CodeAttributeDeclaration("XmlRoot"));
-            }
-            addField(ctd, fieldName);
-        }
-
-        void addField(CodeTypeDeclaration ctd, string fieldName) {
-            CodeMemberField f = null;
-            string fname;
-
-            fname = "_" + Char.ToLower(fieldName[0]) + fieldName.Substring(1);
-            foreach (CodeTypeMember ctm in ctd.Members) {
-                if (ctm is CodeMemberField) {
-                    if (string.Compare(ctm.Name, fname, true) == 0) {
-                        f = ctm as CodeMemberField;
-                        f.Attributes = MemberAttributes.Public;
+        void handleSchemaInference(XmlSchemaSet v) {
+            CodeNamespace ns = new CodeNamespace();
+            CodeTypeDeclaration ctd;
+            foreach (XmlSchema xs in v.Schemas()) {
+                ns.Types.Clear();
+                foreach (XmlSchemaElement xse in xs.Items) {
+                    if (xse.ElementSchemaType is XmlSchemaComplexType) {
+                        ns.Types.Add(ctd = new CodeTypeDeclaration(xse.Name));
+                        populateComplexType(ns, ctd, xse.ElementSchemaType as XmlSchemaComplexType);
+                    } else {
+                        MyLogger.log(MethodBase.GetCurrentMethod(), "unhandled: " + xse.ElementSchemaType);
                     }
                 }
+                MyLogger.log(MethodBase.GetCurrentMethod(), "ends");
+                CodeDomProvider cdp = new CSharpCodeProvider();
+                CodeGeneratorOptions opts = new CodeGeneratorOptions();
+                StringBuilder sb;
+
+                using (StringWriter sw = new StringWriter(sb = new StringBuilder())) {
+                    cdp.GenerateCodeFromNamespace(ns, sw, opts);
+                }
+                Trace.WriteLine("here");
             }
-            if (f == null) {
-                ctd.Members.Add(f = new CodeMemberField(typeof(string), fname));
-                Trace.WriteLine("adding field: " + fname);
-                f.Attributes = MemberAttributes.Public;
-                f.CustomAttributes.Add(
-                    new CodeAttributeDeclaration(
-                        //new CodeTypeReference(typeof(XmlElementAttribute)),
-                        "XmlElement",
-                                               new CodeAttributeArgument(new CodePrimitiveExpression(fieldName))));
+        }
+
+          void populateComplexType(CodeNamespace ns, CodeTypeDeclaration ctd, XmlSchemaComplexType xsct) {
+            XmlSchemaSequence xss;
+            XmlSchemaElement e;
+            CodeMemberField f;
+            CodeTypeDeclaration ctdNew=null;
+
+            //Trace.WriteLine("here");
+            if (xsct.ContentTypeParticle != null) {
+                if (xsct.ContentTypeParticle is XmlSchemaSequence) {
+                    xss = xsct.ContentTypeParticle as XmlSchemaSequence;
+                    //Trace.WriteLine("here");
+
+                    foreach( var avar in xss.Items) {
+                        //Trace.WriteLine("here");
+                        if (avar is XmlSchemaElement) {
+                            e = avar as XmlSchemaElement;
+                            if (e.ElementSchemaType is XmlSchemaComplexType)
+                                ctdNew = readComplexType(ns, e.Name,e.ElementSchemaType as XmlSchemaComplexType);
+                            else
+                                throw new InvalidOperationException("unhandled type:" + e.ElementSchemaType);
+                            //Trace.WriteLine("here");
+                            //ns.Types.Add()
+                            //ctdNew=readType()
+                            //ctd.Members.Add(
+                            ctd.Members.Add(
+                            f = new CodeMemberField(ctdNew.Name, "_field" + ctd.Members.Count.ToString()));
+                            f.Attributes = MemberAttributes.Public;
+                            //ctd.
+                            //readType(ns,)
+                        } else
+                            MyLogger.log(MethodBase.GetCurrentMethod(), "unhandled: " + avar);
+                        //addField()
+                    }
+                } else {
+                    MyLogger.log(MethodBase.GetCurrentMethod(), "not sequence");
+                }
             }
         }
 
-        void unknownElement(object sender, XmlElementEventArgs e) {
-            this.log(MethodBase.GetCurrentMethod(), e.ObjectBeingDeserialized.GetType() + ": found " + e.Element.Name);
+          CodeTypeDeclaration readComplexType(CodeNamespace ns, string className,XmlSchemaComplexType xcdt) {
+            Trace.WriteLine("here");
+            CodeTypeDeclaration ret = null;
+
+            if (ns.Types.Count>0)
+                foreach(CodeTypeDeclaration ctd in ns.Types)
+                    if (string.Compare (ctd.Name, className, true) == 0) {
+                        ret = ctd;
+                        break;
+                    }
+            if (ret==null) {
+                ns.Types.Add(ret = new CodeTypeDeclaration(className));
+                ret.IsPartial = true;
+            }
+            return ret;
+
         }
 
-        void unknownAttribute(object sender, XmlAttributeEventArgs e) {
-            this.log(MethodBase.GetCurrentMethod());
+        //  void populateComplexType(CodeNamespace ns, CodeTypeDeclaration ctd, XmlSchemaElement xse) {
+        //    Trace.WriteLine("here");
+        //    XmlSchemaComplexType xsct=xse.
+        //    throw new NotImplementedException();
+        //}
+
+        void handle(XmlSchemaComplexType xsct,CodeTypeDeclaration ctd) {
+            handle(xsct.ContentTypeParticle,ctd);
         }
 
-        void log(MethodBase mb) {
-            Trace.WriteLine(makeSig(mb));
+        void handle(XmlSchemaParticle xsp,CodeTypeDeclaration ctd) {
+            if (xsp is XmlSchemaSequence) {
+                handle(xsp as XmlSchemaSequence, ctd);
+            } else if (xsp is XmlSchemaElement ) {
+                //handle(xsp as XmlSchemaElement, ctd);
+                MyLogger.log(MethodBase.GetCurrentMethod(), "have type:" + ((XmlSchemaElement) xsp).Name);
+            } else
+                MyLogger.log(MethodBase.GetCurrentMethod(), "have " + xsp.GetType().FullName);
         }
 
-          static string makeSig(MethodBase mb) {
-            return mb.ReflectedType.Name + "." + mb.Name;
+        void handle(XmlSchemaSequence xss,CodeTypeDeclaration ctd) {
+            foreach (var avar in xss.Items)
+                handle(avar,ctd);
         }
 
-        void log(MethodBase mb, string msg) {
-            Trace.WriteLine(makeSig(mb) + ":" + msg);
-        }
-        void log(MethodBase mb, Exception ex) {
-            Trace.WriteLine(makeSig(mb) ,decomposeException (ex));
+        void handle(XmlSchemaElement xse,CodeNamespace ns) {
+            CodeTypeDeclaration ctd;
+            //MyLogger.log(MethodBase.GetCurrentMethod(), xse.Name + ":" + xse.ElementSchemaType+" ["+xse.GetType ().FullName +"]");
+            //Trace.WriteLine("here");
+            if (xse.ElementSchemaType is XmlSchemaComplexType) {
+                ns.Types.Add(ctd = new CodeTypeDeclaration(xse.Name));
+                handleComplexType(xse.ElementSchemaType as XmlSchemaComplexType,ctd);
+            } else if (xse.ElementSchemaType is XmlSchemaSimpleType) {
+                //handleSimpleType(xse.ElementSchemaType as XmlSchemaSimpleType);
+                ns.Types.Add(ctd = new CodeTypeDeclaration(xse.Name));
+                Trace.WriteLine(xse.Name + ":" + xse.SchemaTypeName);
+            } else
+                MyLogger.log(MethodBase.GetCurrentMethod(), "UNKNOWN:" + xse.ElementSchemaType);
         }
 
-        void log(string msg) {
-            Trace.WriteLine(msg);
+        //  void handleSimpleType(XmlSchemaSimpleType xsst) {
+        //    MyLogger.log(MethodBase.GetCurrentMethod(), "Have " + xsst.Name);
+        //}
+
+          void handleComplexType(XmlSchemaComplexType xsct,CodeTypeDeclaration ctd) {
+            MyLogger.log(MethodBase.GetCurrentMethod(), "Have " + xsct.Name);
+            handle(xsct.ContentTypeParticle,ctd);
         }
-        //kc}
+
+        void handle(XmlSchemaObject xso,CodeTypeDeclaration ctd) {
+            if (xso is XmlSchemaElement)
+                handle(xso as XmlSchemaElement,ctd);
+            //else if (xso is XmlSchemaSimpleType)
+            //    handle(xso as XmlSchemaSimpleType);
+            else if (xso is XmlSchemaAny) {
+                MyLogger.log(MethodBase.GetCurrentMethod(), "test");
+            }
+            else
+                MyLogger.log(MethodBase.GetCurrentMethod(), "unhanlded:" + xso.GetType().FullName);
+        }
     }
 }

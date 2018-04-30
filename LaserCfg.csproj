@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup Label="IDK">
     <Compile Include="Source\MarkingTaskGroup.cs" />
+    <Compile Include="Source\MyLogger.cs" />
+    <Compile Include="Source\SomeClass.cs" />
     <Compile Include="Source\UI\LaserCfgForm.cs">
       <SubType>Form</SubType>
     </Compile>

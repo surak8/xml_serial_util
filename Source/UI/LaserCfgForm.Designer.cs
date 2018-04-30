@@ -30,8 +30,8 @@ namespace NSLaserCfg {
         void InitializeComponent() {
             this.ms1 = new System.Windows.Forms.MenuStrip();
             this.tsmiFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ms1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,7 +41,7 @@ namespace NSLaserCfg {
             this.tsmiFile});
             this.ms1.Location = new System.Drawing.Point(0, 0);
             this.ms1.Name = "ms1";
-            this.ms1.Size = new System.Drawing.Size(284, 24);
+            this.ms1.Size = new System.Drawing.Size(288, 24);
             this.ms1.TabIndex = 0;
             this.ms1.Text = "ms1";
             // 
@@ -54,13 +54,6 @@ namespace NSLaserCfg {
             this.tsmiFile.Size = new System.Drawing.Size(37, 20);
             this.tsmiFile.Text = "File";
             // 
-            // tsmiFileExit
-            // 
-            this.tsmiFileExit.Name = "tsmiFileExit";
-            this.tsmiFileExit.Size = new System.Drawing.Size(152, 22);
-            this.tsmiFileExit.Text = "Exit";
-            this.tsmiFileExit.Click += new System.EventHandler(this.exitClick);
-            // 
             // tsmiOpen
             // 
             this.tsmiOpen.Name = "tsmiOpen";
@@ -69,9 +62,16 @@ namespace NSLaserCfg {
             this.tsmiOpen.Text = "Open..";
             this.tsmiOpen.Click += new System.EventHandler(this.tsmiOpen_Click);
             // 
+            // tsmiFileExit
+            // 
+            this.tsmiFileExit.Name = "tsmiFileExit";
+            this.tsmiFileExit.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileExit.Text = "Exit";
+            this.tsmiFileExit.Click += new System.EventHandler(this.exitClick);
+            // 
             // LaserCfgForm
             // 
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(288, 266);
             this.Controls.Add(this.ms1);
             this.MainMenuStrip = this.ms1;
             this.Name = "LaserCfgForm";
