@@ -1,391 +1,391 @@
 <?xml version="1.0"?>
 <ArrayOfMarkingTaskGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <MarkingTaskGroup>
-    <IsActive>true</IsActive>
-    <IsStartUp>true</IsStartUp>
-    <IsEndAutorun>true</IsEndAutorun>
-    <IsFalseAutorun>false</IsFalseAutorun>
-    <LoadGroupOnEnd>Setup Data</LoadGroupOnEnd>
-    <LoadGroupOnFalse />
-    <Name>Startup</Name>
-    <Description>Startup - Task That Run When Marking Screen Loads.</Description>
-    <ButtonStateAtRun>Setup</ButtonStateAtRun>
-    <TasksToRun>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Can't Find Main Pattern</FailiureMessage>
-        <Description>Check If Main Pattern Exits</Description>
-        <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\401003.sjf</Value>
-        <Value2 />
-        <MarkingType>Front</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckIfPatternExist</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Can't Find Flip Pattern</FailiureMessage>
-        <Description>Check If Flip Pattern Exits</Description>
-        <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\.sjf</Value>
-        <Value2 />
-        <MarkingType>Flip</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckIfPatternExist</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Can't Find Scrap Pattern</FailiureMessage>
-        <Description>Check If Scrap Pattern Exits</Description>
-        <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\scrap.sjf</Value>
-        <Value2 />
-        <MarkingType>Scrap</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckIfPatternExist</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Could not connect to device</FailiureMessage>
-        <Description>Connecting To Device.</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>ConnectToDevice</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Could not connect to camera</FailiureMessage>
-        <Description>Connecting To Camera.</Description>
-        <Value>192.168.105.28</Value>
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>ConnectToCamera</MarkerTaskType>
-      </MarkingTaskItem>
-    </TasksToRun>
-  </MarkingTaskGroup>
-  <MarkingTaskGroup>
-    <IsActive>true</IsActive>
-    <IsStartUp>false</IsStartUp>
-    <IsEndAutorun>false</IsEndAutorun>
-    <IsFalseAutorun>false</IsFalseAutorun>
-    <LoadGroupOnEnd>Prerun</LoadGroupOnEnd>
-    <LoadGroupOnFalse />
-    <Name>Setup Data</Name>
-    <Description>Setup Data - Tasks That Load Patterns And Setup Data.</Description>
-    <ButtonStateAtRun>Setup</ButtonStateAtRun>
-    <TasksToRun>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Pattern Did Not Load</FailiureMessage>
-        <Description>Load Main Pattern</Description>
-        <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\401003.sjf</Value>
-        <Value2 />
-        <MarkingType>Front</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>LoadPattern</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Serial Number Did Not Load Or Lock</FailiureMessage>
-        <Description>Get Next SN Availalbe &amp; Lock It</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>GetNextSerialNumber</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Variable HR Did Not Set</FailiureMessage>
-        <Description>Setting HR In Pattern</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>LoadSerialNumberVariable</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Variable 2D Did Not Set</FailiureMessage>
-        <Description>Setting 2D In Pattern</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>Load2DVariable</MarkerTaskType>
-      </MarkingTaskItem>
-    </TasksToRun>
-  </MarkingTaskGroup>
-  <MarkingTaskGroup>
-    <IsActive>true</IsActive>
-    <IsStartUp>false</IsStartUp>
-    <IsEndAutorun>true</IsEndAutorun>
-    <IsFalseAutorun>false</IsFalseAutorun>
-    <LoadGroupOnEnd>Marking Tasks</LoadGroupOnEnd>
-    <LoadGroupOnFalse />
-    <Name>Prerun</Name>
-    <Description>Prerun - Tasks That Run To Check If Marking Is Possible.</Description>
-    <ButtonStateAtRun>Checking</ButtonStateAtRun>
-    <TasksToRun>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Door Is Open</FailiureMessage>
-        <Description>Door Closed?</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckDoor</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Can't Move Fixture To Home Position</FailiureMessage>
-        <Description>Move Home</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>MoveHome</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Part Not In Device</FailiureMessage>
-        <Description>Part Available?</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckPart</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse>Part Marked</MarkingTaskGroupNameToRunOnFalse>
-        <FailiureMessage>Part Is Already Marked With '{0}'</FailiureMessage>
-        <Description>Part Not Marked?</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckPartMarked</MarkerTaskType>
-      </MarkingTaskItem>
-    </TasksToRun>
-  </MarkingTaskGroup>
-  <MarkingTaskGroup>
-    <IsActive>true</IsActive>
-    <IsStartUp>false</IsStartUp>
-    <IsEndAutorun>true</IsEndAutorun>
-    <IsFalseAutorun>true</IsFalseAutorun>
-    <LoadGroupOnEnd>Setup Data</LoadGroupOnEnd>
-    <LoadGroupOnFalse>Marking Scrap Tasks</LoadGroupOnFalse>
-    <Name>Marking Tasks</Name>
-    <Description>Marking Tasks - Tasks That Run While Marking.</Description>
-    <ButtonStateAtRun>Marking</ButtonStateAtRun>
-    <TasksToRun>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse>Part Marked</MarkingTaskGroupNameToRunOnFalse>
-        <FailiureMessage>Part Is Already Marked With '{0}'</FailiureMessage>
-        <Description>Part Not Marked?</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckPartMarked</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Pattern Did Not Mark Correctly</FailiureMessage>
-        <Description>Marking Main Pattern</Description>
-        <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\401003.sjf</Value>
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>MarkPattern</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>2D Does Not Match Serial Number Marked or Is not Readable.</FailiureMessage>
-        <Description>Verify 2D Barcode</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>Skip</TaskProgress>
-        <MarkerTaskType>Verify2D</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Databaes Did Not Update</FailiureMessage>
-        <Description>Updating Record As Success</Description>
-        <Value>True</Value>
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>StoreSerialNumberRecord</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>SN '{0}' Did Not Unlock</FailiureMessage>
-        <Description>Unlocking SN</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>UnLockSerialNumber</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Can't Move Fixture To Flip Position</FailiureMessage>
-        <Description>Move Flip</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>Skip</TaskProgress>
-        <MarkerTaskType>MoveFlip</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Pattern Did Not Load</FailiureMessage>
-        <Description>Load Flip Pattern</Description>
-        <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\.sjf</Value>
-        <Value2 />
-        <MarkingType>Flip</MarkingType>
-        <TaskProgress>Skip</TaskProgress>
-        <MarkerTaskType>LoadPattern</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Pattern Did Not Mark Correctly</FailiureMessage>
-        <Description>Marking Flip Pattern</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>Skip</TaskProgress>
-        <MarkerTaskType>MarkPattern</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Can't Move Fixture To Home Position</FailiureMessage>
-        <Description>Move Home</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>Skip</TaskProgress>
-        <MarkerTaskType>MoveHome</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Door Did Not Open</FailiureMessage>
-        <Description>Open Door</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>OpenDoor</MarkerTaskType>
-      </MarkingTaskItem>
-    </TasksToRun>
-  </MarkingTaskGroup>
-  <MarkingTaskGroup>
-    <IsActive>true</IsActive>
-    <IsStartUp>false</IsStartUp>
-    <IsEndAutorun>true</IsEndAutorun>
-    <IsFalseAutorun>true</IsFalseAutorun>
-    <LoadGroupOnEnd>Setup Data</LoadGroupOnEnd>
-    <LoadGroupOnFalse>Setup Data</LoadGroupOnFalse>
-    <Name>Marking Scrap Tasks</Name>
-    <Description>Marking Scrap Tasks - Tasks That Run While Marking Scrap.</Description>
-    <ButtonStateAtRun>MarkingScrap</ButtonStateAtRun>
-    <TasksToRun>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Databaes Did Not Update</FailiureMessage>
-        <Description>Updating Database Record As Scrap</Description>
-        <Value>False</Value>
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>StoreSerialNumberRecord</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Door Is Open</FailiureMessage>
-        <Description>Door Closed?</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckDoor</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Can't Move Fixture To Home Position</FailiureMessage>
-        <Description>Move Home</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>MoveHome</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Part Not In Device</FailiureMessage>
-        <Description>Checking If Part Available</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>CheckPart</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Scrap Pattern Did Not Load</FailiureMessage>
-        <Description>Load Scrap Pattern</Description>
-        <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\scrap.sjf</Value>
-        <Value2 />
-        <MarkingType>Scrap</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>LoadPattern</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Pattern Did Not Mark Correctly</FailiureMessage>
-        <Description>Marking Scrap Pattern</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>MarkPattern</MarkerTaskType>
-      </MarkingTaskItem>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Door Did Not Open</FailiureMessage>
-        <Description>Open Door</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>OpenDoor</MarkerTaskType>
-      </MarkingTaskItem>
-    </TasksToRun>
-  </MarkingTaskGroup>
-  <MarkingTaskGroup>
-    <IsActive>true</IsActive>
-    <IsStartUp>false</IsStartUp>
-    <IsEndAutorun>false</IsEndAutorun>
-    <IsFalseAutorun>true</IsFalseAutorun>
-    <LoadGroupOnEnd>Prerun</LoadGroupOnEnd>
-    <LoadGroupOnFalse>Setup Data</LoadGroupOnFalse>
-    <Name>Part Marked</Name>
-    <Description>Part Marked - Tasks That Run If Part Is Already Marked.</Description>
-    <ButtonStateAtRun>Checking</ButtonStateAtRun>
-    <TasksToRun>
-      <MarkingTaskItem>
-        <MarkingTaskGroupNameToRunOnFalse />
-        <FailiureMessage>Door Did Not Open</FailiureMessage>
-        <Description>Open Door</Description>
-        <Value />
-        <Value2 />
-        <MarkingType>NotMarking</MarkingType>
-        <TaskProgress>ToDo</TaskProgress>
-        <MarkerTaskType>OpenDoor</MarkerTaskType>
-      </MarkingTaskItem>
-    </TasksToRun>
-  </MarkingTaskGroup>
+    <MarkingTaskGroup>
+        <IsActive>true</IsActive>
+        <IsStartUp>true</IsStartUp>
+        <IsEndAutorun>true</IsEndAutorun>
+        <IsFalseAutorun>false</IsFalseAutorun>
+        <LoadGroupOnEnd>Setup Data</LoadGroupOnEnd>
+        <LoadGroupOnFalse />
+        <Name>Startup</Name>
+        <Description>Startup - Task That Run When Marking Screen Loads.</Description>
+        <ButtonStateAtRun>Setup</ButtonStateAtRun>
+        <TasksToRun>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Can't Find Main Pattern</FailiureMessage>
+                <Description>Check If Main Pattern Exits</Description>
+                <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\401003.sjf</Value>
+                <Value2 />
+                <MarkingType>Front</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckIfPatternExist</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Can't Find Flip Pattern</FailiureMessage>
+                <Description>Check If Flip Pattern Exits</Description>
+                <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\.sjf</Value>
+                <Value2 />
+                <MarkingType>Flip</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckIfPatternExist</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Can't Find Scrap Pattern</FailiureMessage>
+                <Description>Check If Scrap Pattern Exits</Description>
+                <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\scrap.sjf</Value>
+                <Value2 />
+                <MarkingType>Scrap</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckIfPatternExist</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Could not connect to device</FailiureMessage>
+                <Description>Connecting To Device.</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>ConnectToDevice</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Could not connect to camera</FailiureMessage>
+                <Description>Connecting To Camera.</Description>
+                <Value>192.168.105.28</Value>
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>ConnectToCamera</MarkerTaskType>
+            </MarkingTaskItem>
+        </TasksToRun>
+    </MarkingTaskGroup>
+    <MarkingTaskGroup>
+        <IsActive>true</IsActive>
+        <IsStartUp>false</IsStartUp>
+        <IsEndAutorun>false</IsEndAutorun>
+        <IsFalseAutorun>false</IsFalseAutorun>
+        <LoadGroupOnEnd>Prerun</LoadGroupOnEnd>
+        <LoadGroupOnFalse />
+        <Name>Setup Data</Name>
+        <Description>Setup Data - Tasks That Load Patterns And Setup Data.</Description>
+        <ButtonStateAtRun>Setup</ButtonStateAtRun>
+        <TasksToRun>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Pattern Did Not Load</FailiureMessage>
+                <Description>Load Main Pattern</Description>
+                <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\401003.sjf</Value>
+                <Value2 />
+                <MarkingType>Front</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>LoadPattern</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Serial Number Did Not Load Or Lock</FailiureMessage>
+                <Description>Get Next SN Availalbe &amp; Lock It</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>GetNextSerialNumber</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Variable HR Did Not Set</FailiureMessage>
+                <Description>Setting HR In Pattern</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>LoadSerialNumberVariable</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Variable 2D Did Not Set</FailiureMessage>
+                <Description>Setting 2D In Pattern</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>Load2DVariable</MarkerTaskType>
+            </MarkingTaskItem>
+        </TasksToRun>
+    </MarkingTaskGroup>
+    <MarkingTaskGroup>
+        <IsActive>true</IsActive>
+        <IsStartUp>false</IsStartUp>
+        <IsEndAutorun>true</IsEndAutorun>
+        <IsFalseAutorun>false</IsFalseAutorun>
+        <LoadGroupOnEnd>Marking Tasks</LoadGroupOnEnd>
+        <LoadGroupOnFalse />
+        <Name>Prerun</Name>
+        <Description>Prerun - Tasks That Run To Check If Marking Is Possible.</Description>
+        <ButtonStateAtRun>Checking</ButtonStateAtRun>
+        <TasksToRun>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Door Is Open</FailiureMessage>
+                <Description>Door Closed?</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckDoor</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Can't Move Fixture To Home Position</FailiureMessage>
+                <Description>Move Home</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>MoveHome</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Part Not In Device</FailiureMessage>
+                <Description>Part Available?</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckPart</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse>Part Marked</MarkingTaskGroupNameToRunOnFalse>
+                <FailiureMessage>Part Is Already Marked With '{0}'</FailiureMessage>
+                <Description>Part Not Marked?</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckPartMarked</MarkerTaskType>
+            </MarkingTaskItem>
+        </TasksToRun>
+    </MarkingTaskGroup>
+    <MarkingTaskGroup>
+        <IsActive>true</IsActive>
+        <IsStartUp>false</IsStartUp>
+        <IsEndAutorun>true</IsEndAutorun>
+        <IsFalseAutorun>true</IsFalseAutorun>
+        <LoadGroupOnEnd>Setup Data</LoadGroupOnEnd>
+        <LoadGroupOnFalse>Marking Scrap Tasks</LoadGroupOnFalse>
+        <Name>Marking Tasks</Name>
+        <Description>Marking Tasks - Tasks That Run While Marking.</Description>
+        <ButtonStateAtRun>Marking</ButtonStateAtRun>
+        <TasksToRun>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse>Part Marked</MarkingTaskGroupNameToRunOnFalse>
+                <FailiureMessage>Part Is Already Marked With '{0}'</FailiureMessage>
+                <Description>Part Not Marked?</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckPartMarked</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Pattern Did Not Mark Correctly</FailiureMessage>
+                <Description>Marking Main Pattern</Description>
+                <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\401003.sjf</Value>
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>MarkPattern</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>2D Does Not Match Serial Number Marked or Is not Readable.</FailiureMessage>
+                <Description>Verify 2D Barcode</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>Skip</TaskProgress>
+                <MarkerTaskType>Verify2D</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Databaes Did Not Update</FailiureMessage>
+                <Description>Updating Record As Success</Description>
+                <Value>True</Value>
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>StoreSerialNumberRecord</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>SN '{0}' Did Not Unlock</FailiureMessage>
+                <Description>Unlocking SN</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>UnLockSerialNumber</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Can't Move Fixture To Flip Position</FailiureMessage>
+                <Description>Move Flip</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>Skip</TaskProgress>
+                <MarkerTaskType>MoveFlip</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Pattern Did Not Load</FailiureMessage>
+                <Description>Load Flip Pattern</Description>
+                <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\.sjf</Value>
+                <Value2 />
+                <MarkingType>Flip</MarkingType>
+                <TaskProgress>Skip</TaskProgress>
+                <MarkerTaskType>LoadPattern</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Pattern Did Not Mark Correctly</FailiureMessage>
+                <Description>Marking Flip Pattern</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>Skip</TaskProgress>
+                <MarkerTaskType>MarkPattern</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Can't Move Fixture To Home Position</FailiureMessage>
+                <Description>Move Home</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>Skip</TaskProgress>
+                <MarkerTaskType>MoveHome</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Door Did Not Open</FailiureMessage>
+                <Description>Open Door</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>OpenDoor</MarkerTaskType>
+            </MarkingTaskItem>
+        </TasksToRun>
+    </MarkingTaskGroup>
+    <MarkingTaskGroup>
+        <IsActive>true</IsActive>
+        <IsStartUp>false</IsStartUp>
+        <IsEndAutorun>true</IsEndAutorun>
+        <IsFalseAutorun>true</IsFalseAutorun>
+        <LoadGroupOnEnd>Setup Data</LoadGroupOnEnd>
+        <LoadGroupOnFalse>Setup Data</LoadGroupOnFalse>
+        <Name>Marking Scrap Tasks</Name>
+        <Description>Marking Scrap Tasks - Tasks That Run While Marking Scrap.</Description>
+        <ButtonStateAtRun>MarkingScrap</ButtonStateAtRun>
+        <TasksToRun>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Databaes Did Not Update</FailiureMessage>
+                <Description>Updating Database Record As Scrap</Description>
+                <Value>False</Value>
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>StoreSerialNumberRecord</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Door Is Open</FailiureMessage>
+                <Description>Door Closed?</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckDoor</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Can't Move Fixture To Home Position</FailiureMessage>
+                <Description>Move Home</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>MoveHome</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Part Not In Device</FailiureMessage>
+                <Description>Checking If Part Available</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>CheckPart</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Scrap Pattern Did Not Load</FailiureMessage>
+                <Description>Load Scrap Pattern</Description>
+                <Value>\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\SamLight_LaserPatterns\Test\scrap.sjf</Value>
+                <Value2 />
+                <MarkingType>Scrap</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>LoadPattern</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Pattern Did Not Mark Correctly</FailiureMessage>
+                <Description>Marking Scrap Pattern</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>MarkPattern</MarkerTaskType>
+            </MarkingTaskItem>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Door Did Not Open</FailiureMessage>
+                <Description>Open Door</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>OpenDoor</MarkerTaskType>
+            </MarkingTaskItem>
+        </TasksToRun>
+    </MarkingTaskGroup>
+    <MarkingTaskGroup>
+        <IsActive>true</IsActive>
+        <IsStartUp>false</IsStartUp>
+        <IsEndAutorun>false</IsEndAutorun>
+        <IsFalseAutorun>true</IsFalseAutorun>
+        <LoadGroupOnEnd>Prerun</LoadGroupOnEnd>
+        <LoadGroupOnFalse>Setup Data</LoadGroupOnFalse>
+        <Name>Part Marked</Name>
+        <Description>Part Marked - Tasks That Run If Part Is Already Marked.</Description>
+        <ButtonStateAtRun>Checking</ButtonStateAtRun>
+        <TasksToRun>
+            <MarkingTaskItem>
+                <MarkingTaskGroupNameToRunOnFalse />
+                <FailiureMessage>Door Did Not Open</FailiureMessage>
+                <Description>Open Door</Description>
+                <Value />
+                <Value2 />
+                <MarkingType>NotMarking</MarkingType>
+                <TaskProgress>ToDo</TaskProgress>
+                <MarkerTaskType>OpenDoor</MarkerTaskType>
+            </MarkingTaskItem>
+        </TasksToRun>
+    </MarkingTaskGroup>
 </ArrayOfMarkingTaskGroup>

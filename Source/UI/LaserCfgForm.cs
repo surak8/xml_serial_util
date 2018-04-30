@@ -18,15 +18,19 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
 namespace NSLaserCfg {
-
-    public partial class LaserCfgForm {
+        public partial class LaserCfgForm {
+        #region ctor
         public LaserCfgForm() {
             InitializeComponent();
         }
+        #endregion
+
+        #region event-handling methods
         void exitClick(object sender, EventArgs ea) {
             CancelEventArgs cea = new CancelEventArgs();
 
@@ -38,6 +42,10 @@ namespace NSLaserCfg {
         }
         void formLoad(object sender, EventArgs ea) {
         }
+
+        #endregion
+
+        #region main-line method
         [STAThread()]
         public static void Main(string[] args) {
             Application.EnableVisualStyles();
@@ -45,50 +53,113 @@ namespace NSLaserCfg {
             Application.Run(new LaserCfgForm());
         }
 
+        #endregion
 
+        #region fields
         CodeCompileUnit ccu;
         CodeNamespace ns;
         bool issueFound = false;
+        #endregion
 
+        #region constants
         const string OPEN_PATH = @"\\appdeploy\APPDEPLOY\Colt Software\ColtMarking\ConfigFiles\LASERMARK-05";
+
+        #endregion
 
         void tsmiOpen_Click(object sender, EventArgs e) {
 
             OpenFileDialog ofd = new OpenFileDialog();
-            XmlDeserializationEvents xde;
-            XmlSerializer xs;
-            XmlReaderSettings xrs;
-            StringBuilder sb;
-            object anObj;
+            //XmlDeserializationEvents xde;
+            //XmlSerializer xs;
+            //XmlReaderSettings xrs;
+            //StringBuilder sb;
+            //object anObj;
 
             ofd.InitialDirectory = OPEN_PATH;
             ofd.Filter = "Xml files|*.xml";
             ofd.FilterIndex = 0;
 
             if (ofd.ShowDialog() == DialogResult.OK) {
-                ccu = new CodeCompileUnit();
-                ccu.Namespaces.Add(ns = new CodeNamespace());
-                try {
-                    xs = new XmlSerializer(typeof(MarkingTaskGroup[]));
-                    xrs = new XmlReaderSettings();
-                    xrs.ValidationEventHandler += Xrs_ValidationEventHandler;
-                    xrs.ValidationFlags = System.Xml.Schema.XmlSchemaValidationFlags.AllowXmlAttributes | System.Xml.Schema.XmlSchemaValidationFlags.ReportValidationWarnings;
-                    using (XmlReader xr = XmlReader.Create(ofd.FileName, xrs)) {
-                        xde = new XmlDeserializationEvents();
-                        xde.OnUnknownAttribute = this.unknownAttribute;
-                        xde.OnUnknownElement = this.unknownElement;
-                        xde.OnUnknownNode = this.unknownNode;
-                        xde.OnUnreferencedObject = this.unreferencedObject;
-                        anObj = xs.Deserialize(xr, xde);
-                        log(MethodBase.GetCurrentMethod());
-                    }
-                } catch (Exception ex) {
-                    Trace.WriteLine(decomposeException(ex));
-                } finally {
-                    if (issueFound) {
-                        showResult(sb = new StringBuilder());
+                inferSchema(ofd.FileName);
+                //doDeserialization(ofd.FileName);
+//foreach(var avar in )
+            }
+        }
 
+          void inferSchema(string fileName) {
+            try {
+                //XmlSchemaImporter xsi KC= new XmlSchemaImporter();
+                XmlSchemaInference xsi;
+                XmlReaderSettings xrs = new XmlReaderSettings();
+                //XmlParserContext ctx=new XmlParserContext(KC)
+
+                xsi = new XmlSchemaInference();
+                using (XmlReader xr = XmlReader.Create(fileName, xrs)) {
+                    var v = xsi.InferSchema(xr);
+                    //Trace.WriteLine("here");
+                    //foreach (var avar in v.Schemas()) {
+                    //    Trace.WriteLine("here");
+                    //    //foreach (var avar2 in v.e) {
+
+                    //    //}
+                    //}
+                    foreach (XmlSchema xs in v.Schemas()) {
+                        //Trace.WriteLine("here");
+                        //foreach(var avar in xs.Items) {
+                        //    Trace.WriteLine("here");
+
+                        //}
+                        foreach (XmlSchemaElement xse in xs.Items) {
+                            //Trace.WriteLine("here");
+                            Trace.WriteLine(xse.Name + ":" + xse.SchemaType + ", " + xse.ElementSchemaType + ", " + xse.SchemaTypeName);
+                            if (xse.ElementSchemaType== System.Xml.Schema.XmlSchemaComplexType) {
+                                System.Xml.Schema.XmlSchemaComplexType xsct;
+
+                                xsct = xse as System.Xml.Schema.XmlSchemaComplexType;
+                                Trace.WriteLine("here");
+                            }
+                        }
+                        Trace.WriteLine("here");
                     }
+                }
+            } catch (Exception ex) {
+                log(MethodBase.GetCurrentMethod(), ex);
+            } finally { }
+        }
+
+        void doDeserialization(string filename) {
+            XmlDeserializationEvents xde;
+            XmlSerializer xs;
+            XmlReaderSettings xrs;
+            StringBuilder sb;
+            object anObj;
+
+            ccu = new CodeCompileUnit();
+            ccu.Namespaces.Add(ns = new CodeNamespace());
+            ns.Imports.AddRange(
+                new CodeNamespaceImport[] {
+                    new CodeNamespaceImport ("System.Xml"),
+                    new CodeNamespaceImport ("System.Xml.Serialization"),
+                });
+            try {
+                xs = new XmlSerializer(typeof(MarkingTaskGroup[]));
+                xrs = new XmlReaderSettings();
+                xrs.ValidationEventHandler += Xrs_ValidationEventHandler;
+                xrs.ValidationFlags = System.Xml.Schema.XmlSchemaValidationFlags.AllowXmlAttributes | System.Xml.Schema.XmlSchemaValidationFlags.ReportValidationWarnings;
+                using (XmlReader xr = XmlReader.Create(filename, xrs)) {
+                    xde = new XmlDeserializationEvents();
+                    xde.OnUnknownAttribute = this.unknownAttribute;
+                    xde.OnUnknownElement = this.unknownElement;
+                    xde.OnUnknownNode = this.unknownNode;
+                    xde.OnUnreferencedObject = this.unreferencedObject;
+                    anObj = xs.Deserialize(xr, xde);
+                    log(MethodBase.GetCurrentMethod());
+                }
+            } catch (Exception ex) {
+                Trace.WriteLine(decomposeException(ex));
+            } finally {
+                if (issueFound) {
+                    showResult(sb = new StringBuilder());
                 }
             }
         }
@@ -126,7 +197,7 @@ namespace NSLaserCfg {
         }
 
         void unknownNode(object sender, XmlNodeEventArgs e) {
-            int pos, n;
+            int  n;
             string[] parts;
             string className, nameSpace;
             //CodeNamespace nsThis;
@@ -164,8 +235,10 @@ namespace NSLaserCfg {
                     break;
                 }
             }
-            if (nsThis == null)
+            if (nsThis == null) {
                 ccu.Namespaces.Add(nsThis = new CodeNamespace(nameSpace));
+
+            }
             addTypeInfo(nsThis, className, fieldName);
         }
 
@@ -179,28 +252,34 @@ namespace NSLaserCfg {
             if (ctd == null) {
                 nsThis.Types.Add(ctd = new CodeTypeDeclaration(className));
                 ctd.IsPartial = true;
+                //ctd.CustomAttributes.Add(new CodeAttributeDeclaration(new CodeTypeReference(typeof(XmlRootAttribute))));
+                ctd.CustomAttributes.Add(new CodeAttributeDeclaration("XmlRoot"));
             }
             addField(ctd, fieldName);
         }
 
         void addField(CodeTypeDeclaration ctd, string fieldName) {
             CodeMemberField f = null;
+            string fname;
 
+            fname = "_" + Char.ToLower(fieldName[0]) + fieldName.Substring(1);
             foreach (CodeTypeMember ctm in ctd.Members) {
                 if (ctm is CodeMemberField) {
-                    if (string.Compare(ctm.Name, fieldName, true) == 0) {
+                    if (string.Compare(ctm.Name, fname, true) == 0) {
                         f = ctm as CodeMemberField;
                         f.Attributes = MemberAttributes.Public;
                     }
                 }
             }
             if (f == null) {
-                ctd.Members.Add(f = new CodeMemberField(typeof(string), "_" + Char.ToLower(fieldName[0]) + fieldName.Substring(1)));
+                ctd.Members.Add(f = new CodeMemberField(typeof(string), fname));
+                Trace.WriteLine("adding field: " + fname);
                 f.Attributes = MemberAttributes.Public;
                 f.CustomAttributes.Add(
                     new CodeAttributeDeclaration(
-                        new CodeTypeReference(typeof(XmlElementAttribute)),
-                        new CodeAttributeArgument(new CodePrimitiveExpression(fieldName))));
+                        //new CodeTypeReference(typeof(XmlElementAttribute)),
+                        "XmlElement",
+                                               new CodeAttributeArgument(new CodePrimitiveExpression(fieldName))));
             }
         }
 
@@ -213,39 +292,23 @@ namespace NSLaserCfg {
         }
 
         void log(MethodBase mb) {
-            Trace.WriteLine(mb.ReflectedType.Name + "." + mb.Name);
+            Trace.WriteLine(makeSig(mb));
         }
+
+          static string makeSig(MethodBase mb) {
+            return mb.ReflectedType.Name + "." + mb.Name;
+        }
+
         void log(MethodBase mb, string msg) {
-            Trace.WriteLine(mb.ReflectedType.Name + "." + mb.Name + ":" + msg);
+            Trace.WriteLine(makeSig(mb) + ":" + msg);
         }
+        void log(MethodBase mb, Exception ex) {
+            Trace.WriteLine(makeSig(mb) ,decomposeException (ex));
+        }
+
         void log(string msg) {
             Trace.WriteLine(msg);
         }
         //kc}
-    }
-
-    //[XmlRoot("MarkingTaskGroup")]
-    [XmlRoot]
-    public class MarkingTaskGroup {
-        //[XmlElement("IsActive")]
-        //public bool isActive;
-        //[XmlElement("IsStartUp")]
-        //public bool isStartup;
-
-        //[XmlElement("IsEndAutorun")]
-        //public bool isEndAutorun;
-
-        //[XmlElement("IsFalseAutorun")]
-        //public bool isFalseAutorun;
-
-        //[XmlElement("IsFalseAutorun")]
-        //public bool isFalseAutorun;
-        ////[XmlElement("IsStartUp")]
-        ////public bool isStartup;
-        ////[XmlElement("IsStartUp")]
-        ////public bool isStartup;
-        ////[XmlElement("IsStartUp")]
-        ////public bool isStartup;
-
     }
 }
