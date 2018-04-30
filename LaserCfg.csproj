@@ -44,14 +44,32 @@
   </PropertyGroup>
   <ItemGroup Label="None">
     <None Include="app.config" />
+    <None Include="MarkingTasks.xsc">
+      <DependentUpon>MarkingTasks.xsd</DependentUpon>
+    </None>
+    <None Include="MarkingTasks.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>MarkingTasks.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MarkingTasks.xss">
+      <DependentUpon>MarkingTasks.xsd</DependentUpon>
+    </None>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup Label="AssemblyInfo">
+    <Compile Include="MarkingTasks.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MarkingTasks.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup Label="IDK">
+    <Compile Include="Source\InferenceUtil.cs" />
     <Compile Include="Source\MarkingTaskGroup.cs" />
     <Compile Include="Source\MyLogger.cs" />
-    <Compile Include="Source\SomeClass.cs" />
+    <Compile Include="Source\DeserializationUtil.cs" />
     <Compile Include="Source\UI\LaserCfgForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +80,7 @@
   <ItemGroup Label="References">
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -70,6 +89,9 @@
     <EmbeddedResource Include="Source\UI\LaserCfgForm.resx">
       <DependentUpon>LaserCfgForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="examples\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

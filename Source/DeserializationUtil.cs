@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 using Microsoft.CSharp;
 
 namespace NSLaserCfg {
-    class SomeClass {
+    class DeserializationUtil {
         #region fields
         CodeCompileUnit ccu;
         CodeNamespace ns;
@@ -20,7 +20,11 @@ namespace NSLaserCfg {
             MyLogger.log(MethodBase.GetCurrentMethod());
         }
 
-        void doDeserialization(string filename) {
+        internal static void doDeserialization(string filename, Type t) {
+            new DeserializationUtil().doDeserialize(filename, t);
+        }
+
+        void doDeserialize(string filename, Type t) {
             XmlDeserializationEvents xde;
             XmlSerializer xs;
             XmlReaderSettings xrs;
@@ -35,7 +39,7 @@ namespace NSLaserCfg {
                     new CodeNamespaceImport ("System.Xml.Serialization"),
                 });
             try {
-                xs = new XmlSerializer(typeof(MarkingTaskGroup[]));
+                xs = new XmlSerializer(t);
                 xrs = new XmlReaderSettings();
                 xrs.ValidationEventHandler += Xrs_ValidationEventHandler;
                 xrs.ValidationFlags = System.Xml.Schema.XmlSchemaValidationFlags.AllowXmlAttributes | System.Xml.Schema.XmlSchemaValidationFlags.ReportValidationWarnings;
@@ -58,9 +62,9 @@ namespace NSLaserCfg {
         }
 
         void showResult(StringBuilder sb) {
-            //throw new NotImplementedException();
             CodeDomProvider cdp = new CSharpCodeProvider();
             CodeGeneratorOptions opts = new CodeGeneratorOptions();
+
             opts.BlankLinesBetweenMembers = false;
             opts.ElseOnClosing = true;
 
@@ -69,9 +73,9 @@ namespace NSLaserCfg {
             }
             Trace.WriteLine(sb.ToString());
         }
+
         void addToNamespace(string nameSpace, string className, string fieldName) {
             CodeNamespace nsThis = null;
-
 
             nsThis = null;
             foreach (CodeNamespace anns in ccu.Namespaces) {
@@ -80,12 +84,11 @@ namespace NSLaserCfg {
                     break;
                 }
             }
-            if (nsThis == null) {
+            if (nsThis == null)
                 ccu.Namespaces.Add(nsThis = new CodeNamespace(nameSpace));
-
-            }
             addTypeInfo(nsThis, className, fieldName);
         }
+
         void addTypeInfo(CodeNamespace nsThis, string className, string fieldName) {
             CodeTypeDeclaration ctd = null;
             foreach (CodeTypeDeclaration atype in nsThis.Types)
@@ -94,14 +97,13 @@ namespace NSLaserCfg {
                     break;
                 }
             if (ctd == null) {
+                MyLogger.log(MethodBase.GetCurrentMethod(), "Adding type: " + className);
                 nsThis.Types.Add(ctd = new CodeTypeDeclaration(className));
                 ctd.IsPartial = true;
-                //ctd.CustomAttributes.Add(new CodeAttributeDeclaration(new CodeTypeReference(typeof(XmlRootAttribute))));
                 ctd.CustomAttributes.Add(new CodeAttributeDeclaration("XmlRoot"));
             }
             addField(ctd, fieldName);
         }
-
 
         void addField(CodeTypeDeclaration ctd, string fieldName) {
             CodeMemberField f = null;
@@ -122,12 +124,10 @@ namespace NSLaserCfg {
                 f.Attributes = MemberAttributes.Public;
                 f.CustomAttributes.Add(
                     new CodeAttributeDeclaration(
-                        //new CodeTypeReference(typeof(XmlElementAttribute)),
                         "XmlElement",
-                                               new CodeAttributeArgument(new CodePrimitiveExpression(fieldName))));
+                        new CodeAttributeArgument(new CodePrimitiveExpression(fieldName))));
             }
         }
-
 
         void unreferencedObject(object sender, UnreferencedObjectEventArgs e) {
             MyLogger.log(MethodBase.GetCurrentMethod());
@@ -137,17 +137,11 @@ namespace NSLaserCfg {
             int n;
             string[] parts;
             string className, nameSpace;
-            //CodeNamespace nsThis;
-            //CodeTypeDeclaration ctd;
 
             if (e.ObjectBeingDeserialized != null) {
-
                 if (!issueFound)
                     issueFound = true;
                 parts = e.ObjectBeingDeserialized.GetType().FullName.Split('.');
-                //if ((pos=))
-
-                //Trace.WriteLine("here");
                 if ((n = parts.Length) < 2) {
                     nameSpace = string.Empty;
                     className = parts[0];
@@ -156,7 +150,6 @@ namespace NSLaserCfg {
                     className = parts[n - 1];
                 }
                 addToNamespace(nameSpace, className, e.Name);
-
             } else
                 MyLogger.log(MethodBase.GetCurrentMethod(), "Found " + e.NodeType + " '" + e.Name + "' on " + e.ObjectBeingDeserialized.GetType().FullName);
         }
@@ -168,6 +161,5 @@ namespace NSLaserCfg {
         void unknownAttribute(object sender, XmlAttributeEventArgs e) {
             MyLogger.log(MethodBase.GetCurrentMethod());
         }
-
     }
 }

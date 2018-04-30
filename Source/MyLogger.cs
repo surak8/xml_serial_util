@@ -10,22 +10,20 @@ namespace NSLaserCfg {
         }
 
         public static string makeSig(MethodBase mb) {
-            string parms = makeParm(mb);
-            return mb.ReflectedType.Name + "." + mb.Name+parms;
+            return mb.ReflectedType.Name + "." + mb.Name + makeParm(mb);
         }
 
-          static string makeParm(MethodBase mb) {
+        static string makeParm(MethodBase mb) {
             StringBuilder sb = new StringBuilder();
-            int n=0;
+            int n = 0;
 
             sb.Append("(");
-            foreach(var avar in mb.GetParameters()) {
+            foreach (var avar in mb.GetParameters()) {
                 if (n > 0)
                     sb.Append(", ");
                 sb.Append(avar.ParameterType.Name + " " + avar.Name);
                 n++;
             }
-
             sb.Append(")");
             return sb.ToString();
         }
@@ -35,8 +33,7 @@ namespace NSLaserCfg {
         }
 
         public static void log(MethodBase mb, Exception ex) {
-            //log(makeSig(mb), decomposeException(ex));
-            log(mb, decomposeException(ex));
+            log(mb, decomposeException(ex) + Environment.NewLine + ex.StackTrace);
         }
 
         public static void log(string msg) {

@@ -32,6 +32,7 @@ namespace NSLaserCfg {
             this.tsmiFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.smiFileImportXml = new System.Windows.Forms.ToolStripMenuItem();
             this.ms1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,6 +49,7 @@ namespace NSLaserCfg {
             // tsmiFile
             // 
             this.tsmiFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smiFileImportXml,
             this.tsmiOpen,
             this.tsmiFileExit});
             this.tsmiFile.Name = "tsmiFile";
@@ -58,16 +60,24 @@ namespace NSLaserCfg {
             // 
             this.tsmiOpen.Name = "tsmiOpen";
             this.tsmiOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.tsmiOpen.Size = new System.Drawing.Size(152, 22);
+            this.tsmiOpen.Size = new System.Drawing.Size(183, 22);
             this.tsmiOpen.Text = "Open..";
             this.tsmiOpen.Click += new System.EventHandler(this.tsmiOpen_Click);
             // 
             // tsmiFileExit
             // 
             this.tsmiFileExit.Name = "tsmiFileExit";
-            this.tsmiFileExit.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileExit.Size = new System.Drawing.Size(183, 22);
             this.tsmiFileExit.Text = "Exit";
             this.tsmiFileExit.Click += new System.EventHandler(this.exitClick);
+            // 
+            // smiFileImportXml
+            // 
+            this.smiFileImportXml.Name = "smiFileImportXml";
+            this.smiFileImportXml.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.smiFileImportXml.Size = new System.Drawing.Size(183, 22);
+            this.smiFileImportXml.Text = "&Import XML...";
+            this.smiFileImportXml.Click += new System.EventHandler(this.smiFileImportXml_Click);
             // 
             // LaserCfgForm
             // 
@@ -96,5 +106,6 @@ namespace NSLaserCfg {
         }
 
         private ToolStripMenuItem tsmiOpen;
+        private ToolStripMenuItem smiFileImportXml;
     }
 }

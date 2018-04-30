@@ -8,34 +8,61 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 
-namespace NSLaserCfg {
-
-    [XmlRoot()]
-    public partial class MarkingTaskGroup {
-        [XmlElement("IsActive")]
-        public string _isActive;
-        [XmlElement("IsStartUp")]
-        public string _isStartUp;
-        [XmlElement("IsEndAutorun")]
-        public string _isEndAutorun;
-        [XmlElement("IsFalseAutorun")]
-        public string _isFalseAutorun;
-        [XmlElement("LoadGroupOnEnd")]
-        public string _loadGroupOnEnd;
-        [XmlElement("LoadGroupOnFalse")]
-        public string _loadGroupOnFalse;
-        [XmlElement("Name")]
-        public string _name;
-        [XmlElement("Description")]
-        public string _description;
-        [XmlElement("ButtonStateAtRun")]
-        public string _buttonStateAtRun;
-        [XmlElement("TasksToRun")]
-        public string _tasksToRun;
-    }
+public class ArrayOfMarkingTaskGroup {
+    [XmlElement("MarkingTaskGroup")]
+    public MarkingTaskGroup _markingTaskGroup;
 }
-
+public partial class MarkingTaskGroup {
+    [XmlElement("IsActive")]
+    public bool _isActive;
+    [XmlElement("IsStartUp")]
+    public bool _isStartUp;
+    [XmlElement("IsEndAutorun")]
+    public bool _isEndAutorun;
+    [XmlElement("IsFalseAutorun")]
+    public bool _isFalseAutorun;
+    [XmlElement("LoadGroupOnEnd")]
+    public string _loadGroupOnEnd;
+    [XmlElement("LoadGroupOnFalse")]
+    public LoadGroupOnFalse _loadGroupOnFalse;
+    [XmlElement("Name")]
+    public string _name;
+    [XmlElement("Description")]
+    public string _description;
+    [XmlElement("ButtonStateAtRun")]
+    public string _buttonStateAtRun;
+    [XmlElement("TasksToRun")]
+    public TasksToRun _tasksToRun;
+}
+public partial class LoadGroupOnFalse {
+}
+public partial class TasksToRun {
+    [XmlElement("MarkingTaskItem")]
+    public MarkingTaskItem _markingTaskItem;
+}
+public partial class MarkingTaskItem {
+    [XmlElement("MarkingTaskGroupNameToRunOnFalse")]
+    public MarkingTaskGroupNameToRunOnFalse _markingTaskGroupNameToRunOnFalse;
+    [XmlElement("FailiureMessage")]
+    public string _failiureMessage;
+    [XmlElement("Description")]
+    public string _description;
+    [XmlElement("Value")]
+    public string _value;
+    [XmlElement("Value2")]
+    public Value2 _value2;
+    [XmlElement("MarkingType")]
+    public string _markingType;
+    [XmlElement("TaskProgress")]
+    public string _taskProgress;
+    [XmlElement("MarkerTaskType")]
+    public string _markerTaskType;
+}
+public partial class MarkingTaskGroupNameToRunOnFalse {
+}
+public partial class Value2 {
+}
